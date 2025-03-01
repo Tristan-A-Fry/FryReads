@@ -2,48 +2,36 @@ using Microsoft.EntityFrameworkCore;
 using server.Data;
 using server.Models;
 
-namespace server.Repositories
+public interface IBookRepository
 {
-    public class BookRepository : IBookRepository
+    Task<IEnumerable<UserBook>> GetBooksByUserIdAsync(string userId);
+    Task AddBookAsync(UserBook book);
+    Task UpdateBookAsync(UserBook book);
+}
+
+public class BookRepository : IBookRepository
+{
+    private readonly ApplicationDbContext _context;
+
+    public BookRepository(ApplicationDbContext context)
     {
-        private readonly AppDbContext _context;
-
-        public BookRepository(AppDbContext context)
-        {
-            _context = context;
-        }
-
-        public async Task<IEnumerable<Book>> GetAllBooksAsync()
-        {
-            return await _context.Books.ToListAsync();
-        }
-
-        public async Task<Book?> GetBookByIdAsync(int id)
-        {
-            return await _context.Books.FindAsync(id);
-        }
-
-        public async Task AddBookAsync(Book book)
-        {
-            _context.Books.Add(book);
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task UpdateBookAsync(Book book)
-        {
-            _context.Books.Update(book);
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task DeleteBookAsync(int id)
-        {
-            var book = await _context.Books.FindAsync(id);
-            if (book != null)
-            {
-                _context.Books.Remove(book);
-                await _context.SaveChangesAsync();
-            }
-        }
+        _context = context;
     }
 
+    public async Task<IEnumerable<UserBook>> GetBooksByUserIdAsync(string userId)
+    {
+        return await _context.UserBooks.Where(b => b.UserId == userId).ToListAsync();
+    }
+
+    public async Task AddBookAsync(UserBook book)
+    {
+        _context.UserBooks.Add(book);
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task UpdateBookAsync(UserBook book)
+    {
+        _context.UserBooks.Update(book);
+        await _context.SaveChangesAsync();
+    }
 }

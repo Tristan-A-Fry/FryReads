@@ -7,12 +7,16 @@ namespace server.Models
 {
     public class UserBook
     {
-        public int Id { get; set; }
-        public int UserId { get; set; }
-        public User User { get; set; }
-        public int BookId { get; set; }
-        public Book Book { get; set; }
-        public bool IsRead { get; set; }
-        public DateTime AddedDate { get; set; }
+      public int Id { get; set; }
+      public string UserId { get; set; }
+      public ApplicationUser User { get; set; }
+
+      public string Title { get; set; }
+      public string Author { get; set; }
+
+      public int CurrentPage { get; set; }
+      public bool IsCompleted { get; set; }
+
+      public DateTime AddedDate { get; set; }
     }
 }
