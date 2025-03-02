@@ -1,4 +1,5 @@
 
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using server.Models;
 
@@ -12,11 +13,13 @@ public class UserService : IUserService
 {
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly SignInManager<ApplicationUser> _signInManager;
+    private readonly IJwtService _jwtService;
 
-    public UserService(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+    public UserService(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IJwtService jwtService)
     {
         _userManager = userManager;
         _signInManager = signInManager;
+        _jwtService = jwtService;
     }
 
     public async Task<bool> RegisterUserAsync(string email, string password)
@@ -32,6 +35,8 @@ public class UserService : IUserService
         if (user == null) return null;
 
         var result = await _signInManager.PasswordSignInAsync(user, password, false, false);
-        return result.Succeeded ? "JWT_TOKEN_HERE" : null;
+        if (!result.Succeeded) return null;
+
+        return _jwtService.GenerateToken(user.Id, user.Email);
     }
 }
