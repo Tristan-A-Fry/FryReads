@@ -32,11 +32,18 @@ public class UserService : IUserService
     public async Task<string> LoginUserAsync(string email, string password)
     {
         var user = await _userManager.FindByEmailAsync(email);
-        if (user == null) return null;
+        if (user == null){
+            Console.WriteLine("Login Failed: User not found");
+            return null;
+        } 
 
-        var result = await _signInManager.PasswordSignInAsync(user, password, false, false);
-        if (!result.Succeeded) return null;
+        bool isPasswordVaild = await _userManager.CheckPasswordAsync(user, password);
+        if(!isPasswordVaild){
+            Console.WriteLine("Login Failed: Incorrect Password.");
+            return null; 
+        }
 
+        Console.WriteLine($"User {user.Email} logged in successfully.");
         return _jwtService.GenerateToken(user.Id, user.Email);
     }
 }

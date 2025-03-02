@@ -9,7 +9,7 @@ using server.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 var jwtSettings = builder.Configuration.GetSection("JwtSettings");
-var secretKey = Encoding.UTF8.GetBytes(jwtSettings["Key"]);
+var secretKey = Encoding.UTF8.GetBytes(jwtSettings["Secret"]);
 
 
 // ✅ Add Swagger with JWT Authentication Support
