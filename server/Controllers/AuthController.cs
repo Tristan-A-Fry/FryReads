@@ -1,5 +1,5 @@
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 [ApiController]
 [Route("api/auth")]
@@ -13,6 +13,7 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("register")]
+    [AllowAnonymous] //NO Authentication requried
     public async Task<IActionResult> Register([FromBody] RegisterDto request)
     {
         if (request.Password != request.ConfirmPassword)
@@ -25,6 +26,7 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("login")]
+    [AllowAnonymous] //NO Authentication requried
     public async Task<IActionResult> Login([FromBody] LoginDto request)
     {
         var token = await _userService.LoginUserAsync(request.Email, request.Password);
