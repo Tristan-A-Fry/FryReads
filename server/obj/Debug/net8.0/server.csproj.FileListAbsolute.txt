@@ -185,6 +185,7 @@ D:\fryreads\server\bin\Debug\net8.0\Microsoft.OpenApi.dll
 D:\fryreads\server\bin\Debug\net8.0\Microsoft.SqlServer.Server.dll
 D:\fryreads\server\bin\Debug\net8.0\Microsoft.Win32.SystemEvents.dll
 D:\fryreads\server\bin\Debug\net8.0\Mono.TextTemplating.dll
+D:\fryreads\server\bin\Debug\net8.0\Newtonsoft.Json.dll
 D:\fryreads\server\bin\Debug\net8.0\Npgsql.dll
 D:\fryreads\server\bin\Debug\net8.0\Npgsql.EntityFrameworkCore.PostgreSQL.dll
 D:\fryreads\server\bin\Debug\net8.0\Swashbuckle.AspNetCore.Swagger.dll

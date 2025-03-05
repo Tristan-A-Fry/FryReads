@@ -12,35 +12,44 @@ var builder = WebApplication.CreateBuilder(args);
 //JWT Settings
 var jwtSettings = builder.Configuration.GetSection("JwtSettings");
 var secretKey = jwtSettings["Secret"];
-Console.WriteLine($"🔑 Secret Key (Program.cs): {secretKey}");  // ✅ Debugging
+
+//For debugging
+// Console.WriteLine($"🔑 Secret Key (Program.cs): {secretKey}");  // ✅ Debugging
 
 // ✅ Add Swagger with JWT Authentication Support
 builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc("v1", new OpenApiInfo { Title = "FryReads API", Version = "v1" });
 
-    var securityScheme = new OpenApiSecurityScheme
+    // 🔹 JWT Security (for your API authentication)
+    var jwtSecurityScheme = new OpenApiSecurityScheme
     {
         Name = "Authorization",
-        Description = "Enter 'Bearer {your JWT token}' (without quotes)",
+        Description = "Enter 'Bearer {your JWT token}'",
         In = ParameterLocation.Header,
         Type = SecuritySchemeType.Http,
-        Scheme = "bearer",
-        BearerFormat = "JWT",
-        Reference = new OpenApiReference
-        {
-            Type = ReferenceType.SecurityScheme,
-            Id = "Bearer"
-        }
+        Scheme = "Bearer",
+        BearerFormat = "JWT"
     };
 
-    var securityRequirement = new OpenApiSecurityRequirement
+    // 🔹 ISBNdb API Key Security (for external API)
+    var isbnSecurityScheme = new OpenApiSecurityScheme
     {
-        { securityScheme, Array.Empty<string>() }
+        Name = "Authorization",
+        Description = "Enter your ISBNdb API Key",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = "ApiKey"
     };
 
-    options.AddSecurityDefinition("Bearer", securityScheme);
-    options.AddSecurityRequirement(securityRequirement);
+    options.AddSecurityDefinition("Bearer", jwtSecurityScheme);  // ✅ For your API auth
+    options.AddSecurityDefinition("ApiKey", isbnSecurityScheme); // ✅ For ISBNdb
+
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        { jwtSecurityScheme, new string[] { } },
+        { isbnSecurityScheme, new string[] { } }
+    });
 });
 
 
@@ -99,6 +108,10 @@ builder.Services.AddScoped<IJwtService, JwtService>();
 
 builder.Services.AddScoped<IBookRepository, BookRepository >();
 builder.Services.AddScoped<IBookService, BookService>();
+
+builder.Services.AddScoped<IIsbnDbService, IsbnDbService>();
+
+builder.Services.AddHttpClient<IIsbnDbService, IsbnDbService>(); 
 
 var app = builder.Build();
 if (app.Environment.IsDevelopment())

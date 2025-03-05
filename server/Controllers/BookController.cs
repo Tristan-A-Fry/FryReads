@@ -18,6 +18,8 @@ public class BookController : ControllerBase
     [HttpGet("my-books")]
     public async Task<IActionResult> GetMyBooks()
     {
+
+      /* FOR DEBUGGING
         Console.WriteLine("WE ARE INSIDE THE GET MY BOOKS METHOD()");
         Console.WriteLine("Incoming Request Header:");
         foreach (var header in Request.Headers)
@@ -29,14 +31,19 @@ public class BookController : ControllerBase
         {
             Console.WriteLine($"🔹 Claim: {claim.Type} = {claim.Value}");
         }
+        */
 
         string userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-        Console.WriteLine($"Extracted User ID from jwt: {userId}");
+        //For Debugging
+        // Console.WriteLine($"Extracted User ID from jwt: {userId}");
 
         if (string.IsNullOrEmpty(userId))
         {
-            Console.WriteLine("Could not Extract user ID");
+
+            //For Debugging
+            // Console.WriteLine("Could not Extract user ID");
+            
             return Unauthorized("Invalid user, Could not get the UserID");
         }
 
