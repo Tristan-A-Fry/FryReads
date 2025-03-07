@@ -9,6 +9,7 @@ Overview of this file:
 */
 public interface IUserService
 {
+    Task<bool> IsEmailTakenAsync(string email);
     Task<bool> RegisterUserAsync(string email, string password);
     Task<string> LoginUserAsync(string email, string password);
 }
@@ -32,6 +33,12 @@ public class UserService : IUserService
         _userManager = userManager;
         _signInManager = signInManager;
         _jwtService = jwtService;
+    }
+
+    public async Task<bool> IsEmailTakenAsync(string email)
+    {
+        var user = await _userManager.FindByEmailAsync(email);
+        return user != null; // Return true if user exists
     }
 
     /*

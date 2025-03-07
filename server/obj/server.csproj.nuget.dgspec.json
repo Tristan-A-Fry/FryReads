@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\fryreads\\server\\server.csproj": {}
+    "E:\\fryreads\\server\\server.csproj": {}
   },
   "projects": {
-    "D:\\fryreads\\server\\server.csproj": {
+    "E:\\fryreads\\server\\server.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\fryreads\\server\\server.csproj",
+        "projectUniqueName": "E:\\fryreads\\server\\server.csproj",
         "projectName": "server",
-        "projectPath": "D:\\fryreads\\server\\server.csproj",
+        "projectPath": "E:\\fryreads\\server\\server.csproj",
         "packagesPath": "C:\\Users\\trist\\.nuget\\packages\\",
-        "outputPath": "D:\\fryreads\\server\\obj\\",
+        "outputPath": "E:\\fryreads\\server\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\trist\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -109,7 +109,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.406/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.206/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

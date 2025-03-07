@@ -1,15 +1,18 @@
 
+
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const { login } = useAuth(); // Use AuthContext login function
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    
+
     const response = await fetch("http://localhost:5186/api/auth/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -19,7 +22,7 @@ const LoginPage = () => {
     const data = await response.json();
 
     if (response.ok) {
-      localStorage.setItem("token", data.token);
+      login(data.token); // Use AuthContext login function
       navigate("/"); // Redirect to home page after login
     } else {
       alert("Login failed: " + data.message);
@@ -27,34 +30,52 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen">
-      <form onSubmit={handleLogin} className="bg-white p-6 rounded-lg shadow-md">
-        <h2 className="text-2xl font-bold mb-4">Login</h2>
-        <input
-          type="email"
-          placeholder="Email"
-          className="w-full p-2 border rounded mb-2"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          className="w-full p-2 border rounded mb-2"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded">
-          Login
-        </button>
-        <p className="mt-2">
-          Don't have an account? <a href="/register" className="text-blue-500">Register</a>
-        </p>
-      </form>
+    <div className="flex items-center justify-center min-h-screen bg-gray-900">
+      <div className="bg-gray-800 text-white p-8 rounded-lg shadow-lg w-96">
+        <h2 className="text-2xl font-semibold text-center mb-4">Login</h2>
+        <form onSubmit={handleLogin} className="space-y-4">
+          <input
+            type="email"
+            placeholder="Email"
+            className="w-full p-3 rounded bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            className="w-full p-3 rounded bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+          
+          <button
+            //TODO : Change styling of logout button to match login button
+            type="submit"
+            className="w-full bg-[#2ac9ff] hover:bg-[#4494c0] text-white py-2 rounded transition"
+          >
+            Login
+          </button>
+        </form>
+        <div className="text-center mt-3">
+          <a href="/forgot-password" className="text-blue-400 hover:underline">
+            Forgot password?
+          </a>
+        </div>
+        <div className="text-center mt-2 text-gray-400">
+          Don't have an account?{" "}
+          <a href="/register" className="text-blue-400 hover:underline">
+            Register
+          </a>
+        </div>
+      </div>
     </div>
   );
 };
 
 export default LoginPage;
+
+ 
+

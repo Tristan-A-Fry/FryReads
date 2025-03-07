@@ -17,6 +17,7 @@ var secretKey = jwtSettings["Secret"];
 // Console.WriteLine($"🔑 Secret Key (Program.cs): {secretKey}");  // ✅ Debugging
 
 // ✅ Add Swagger with JWT Authentication Support
+
 builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc("v1", new OpenApiInfo { Title = "FryReads API", Version = "v1" });

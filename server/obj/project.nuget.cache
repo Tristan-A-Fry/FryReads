@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "vkDNubSVVx8=",
+  "dgSpecHash": "ebhwW9yiinLD33lK/xI7fwJsarF4LBSeXay95x3N51gDeCirsJHM2HcG4aFYyNBcxRPvMtSNMoiI63+OQK78kQ==",
   "success": true,
-  "projectFilePath": "D:\\fryreads\\server\\server.csproj",
+  "projectFilePath": "E:\\fryreads\\server\\server.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\trist\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\trist\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",
