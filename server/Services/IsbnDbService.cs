@@ -3,6 +3,9 @@
 public interface IIsbnDbService
 {
     Task<string> GetBookByIsbnAsync(string isbn); 
+    Task<string> GetBooksByAuthorAsync(string author); 
+    Task<string> GetBooksByTitleAsync(string title); 
+
 }
 
 public class IsbnDbService : IIsbnDbService
@@ -38,5 +41,34 @@ public class IsbnDbService : IIsbnDbService
 
         return await response.Content.ReadAsStringAsync();
     }
+
+    public async Task<string> GetBooksByAuthorAsync(string author)
+    {
+        // var requestUrl = $"{_baseUrl}/author/{Uri.EscapeDataString(author)}"; // Correct format for author search
+        var requestUrl = $"{_baseUrl}/author/{author}"; // Author search endpoint
+        var response = await _httpClient.GetAsync($"{requestUrl}?page=1&pageSize=20");
+
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new HttpRequestException($"❌ Failed with status: {response.StatusCode} - {await response.Content.ReadAsStringAsync()}");
+        }
+
+        return await response.Content.ReadAsStringAsync();
+    }
+
+
+    public async Task<string> GetBooksByTitleAsync(string title)
+    {
+        var requestUrl = $"{_baseUrl}/title/{title}";
+        var response = await _httpClient.GetAsync($"{requestUrl}?search={title}");
+
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new HttpRequestException($"❌ Failed with status: {response.StatusCode} - {await response.Content.ReadAsStringAsync()}");
+        }
+
+        return await response.Content.ReadAsStringAsync();
+    }
+
 }
 

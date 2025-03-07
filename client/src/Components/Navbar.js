@@ -15,12 +15,25 @@ const Navbar = () => {
         <Link to="/" className="text-xl font-bold text-white">
           <img src="/FR_logo_transparent.png" alt="FryReads Logo" className="h-20 w-auto" />
         </Link>
+
+
+
         {/* Center Navigation Links*/}
+        <nav>
         <div className="flex-1 flex justify-center text-lg font-semibold">
-          <button className="hover:text-gray-300">
+          <button
+            onClick={() => {
+              navigate("/search");
+            }}
+            className="hover:text-gray-300 transition"
+          >
             Search
           </button>
         </div>
+        </nav>
+
+
+
 
         {/* Right Side Navigation Links */}
         <div className="space-x-12 text-lg font-semibold">
