@@ -16,7 +16,7 @@ public class BooksController : ControllerBase
 
     // Endpoint for search
     [HttpGet("search")]
-    public async Task<IActionResult> SearchBooks([FromQuery] string type, [FromQuery] string query)
+    public async Task<IActionResult> SearchBooks([FromQuery] string type, [FromQuery] string query, [FromQuery] string language)
     {
         if (string.IsNullOrEmpty(query))
         {
@@ -38,7 +38,7 @@ public class BooksController : ControllerBase
             }
             else if (type == "author")
             {
-                result = await _isbndbService.GetBooksByAuthorAsync(query); // Call for Author search
+                result = await _isbndbService.GetBooksByAuthorAsync(query, language); // Call for Author search
             }
             else
             {

@@ -3,7 +3,7 @@
 public interface IIsbnDbService
 {
     Task<string> GetBookByIsbnAsync(string isbn); 
-    Task<string> GetBooksByAuthorAsync(string author); 
+    Task<string> GetBooksByAuthorAsync(string author, string language =""); 
     Task<string> GetBooksByTitleAsync(string title); 
 
 }
@@ -42,11 +42,19 @@ public class IsbnDbService : IIsbnDbService
         return await response.Content.ReadAsStringAsync();
     }
 
-    public async Task<string> GetBooksByAuthorAsync(string author)
+
+
+    public async Task<string> GetBooksByAuthorAsync(string author, string language = "")
     {
-        // var requestUrl = $"{_baseUrl}/author/{Uri.EscapeDataString(author)}"; // Correct format for author search
-        var requestUrl = $"{_baseUrl}/author/{author}"; // Author search endpoint
-        var response = await _httpClient.GetAsync($"{requestUrl}?page=1&pageSize=20");
+        var requestUrl = $"{_baseUrl}/author/{Uri.EscapeDataString(author)}"; // Correct format for author search
+
+        // Add language filter if provided
+        if (!string.IsNullOrEmpty(language))
+        {
+            requestUrl += $"?language={language}";
+        }
+
+        var response = await _httpClient.GetAsync(requestUrl); // Make sure the URL is formed correctly
 
         if (!response.IsSuccessStatusCode)
         {
@@ -55,6 +63,21 @@ public class IsbnDbService : IIsbnDbService
 
         return await response.Content.ReadAsStringAsync();
     }
+
+
+    // public async Task<string> GetBooksByAuthorAsync(string author)
+    // {
+    //     // var requestUrl = $"{_baseUrl}/author/{Uri.EscapeDataString(author)}"; // Correct format for author search
+    //     var requestUrl = $"{_baseUrl}/author/{author}"; // Author search endpoint
+    //     var response = await _httpClient.GetAsync($"{requestUrl}?page=1&pageSize=20");
+    //
+    //     if (!response.IsSuccessStatusCode)
+    //     {
+    //         throw new HttpRequestException($"❌ Failed with status: {response.StatusCode} - {await response.Content.ReadAsStringAsync()}");
+    //     }
+    //
+    //     return await response.Content.ReadAsStringAsync();
+    // }
 
 
     public async Task<string> GetBooksByTitleAsync(string title)

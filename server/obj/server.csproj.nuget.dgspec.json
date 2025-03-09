@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "E:\\fryreads\\server\\server.csproj": {}
+    "E:\\Fryreads\\server\\server.csproj": {}
   },
   "projects": {
-    "E:\\fryreads\\server\\server.csproj": {
+    "E:\\Fryreads\\server\\server.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\fryreads\\server\\server.csproj",
+        "projectUniqueName": "E:\\Fryreads\\server\\server.csproj",
         "projectName": "server",
-        "projectPath": "E:\\fryreads\\server\\server.csproj",
+        "projectPath": "E:\\Fryreads\\server\\server.csproj",
         "packagesPath": "C:\\Users\\trist\\.nuget\\packages\\",
-        "outputPath": "E:\\fryreads\\server\\obj\\",
+        "outputPath": "E:\\Fryreads\\server\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\trist\\AppData\\Roaming\\NuGet\\NuGet.Config"
