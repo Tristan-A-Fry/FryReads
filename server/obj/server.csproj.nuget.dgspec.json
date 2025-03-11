@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "E:\\Fryreads\\server\\server.csproj": {}
+    "E:\\fryreads\\server\\server.csproj": {}
   },
   "projects": {
-    "E:\\Fryreads\\server\\server.csproj": {
+    "E:\\fryreads\\server\\server.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\Fryreads\\server\\server.csproj",
+        "projectUniqueName": "E:\\fryreads\\server\\server.csproj",
         "projectName": "server",
-        "projectPath": "E:\\Fryreads\\server\\server.csproj",
+        "projectPath": "E:\\fryreads\\server\\server.csproj",
         "packagesPath": "C:\\Users\\trist\\.nuget\\packages\\",
-        "outputPath": "E:\\Fryreads\\server\\obj\\",
+        "outputPath": "E:\\fryreads\\server\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\trist\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -69,6 +69,10 @@
               "target": "Package",
               "version": "[8.0.4, )"
             },
+            "Microsoft.Extensions.Configuration.Json": {
+              "target": "Package",
+              "version": "[8.0.206, )"
+            },
             "Microsoft.IdentityModel.Tokens": {
               "target": "Package",
               "version": "[8.0.0, )"
@@ -76,6 +80,10 @@
             "Newtonsoft.Json": {
               "target": "Package",
               "version": "[13.0.3, )"
+            },
+            "Npgsql": {
+              "target": "Package",
+              "version": "[8.0.3, )"
             },
             "Npgsql.EntityFrameworkCore.PostgreSQL": {
               "target": "Package",

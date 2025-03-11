@@ -1,4 +1,6 @@
+import { useNavigate, Link } from "react-router-dom";
 const HomePage = () => {
+  const navigate = useNavigate();
   return (
     <div className="bg-gray-900 min-h-screen flex flex-col items-center justify-center text-white py-12">
       <div className="text-center">
@@ -7,18 +9,24 @@ const HomePage = () => {
         <p className="text-lg mb-6">Track your reading progress, explore new titles, and organize your library easily.</p>
 
         <div className="flex space-x-4 justify-center">
-          <a
+          {/* <a
             href="/search"
             className="bg-gray-700 text-white px-6 py-2 rounded-md hover:bg-[#2ac9ff] transition"
           >
             Start Browsing
-          </a>
-          <a
-            href="/login"
-            className="bg-[#2ac9ff] text-white px-6 py-2 rounded-md hover:bg-gray-600 transition"
-          >
-            Login
-          </a>
+          </a> */}
+            <button
+              onClick={() => navigate("/search")}
+                  className="bg-gray-700 text-white px-6 py-2 rounded-md hover:bg-[#2ac9ff] transition"
+            >
+              Start Browsing 
+            </button>
+            <button
+              onClick={() => navigate("/login")}
+                  className="bg-[#2ac9ff] px-5 py-2 rounded-lg transition hover:bg-[#2ac9ff] hover:shadow-lg hover:shadow-[0_0_10px_#2ac9ff]"
+            >
+              Login
+            </button>
         </div>
       </div>
 

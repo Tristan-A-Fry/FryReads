@@ -26,7 +26,8 @@ import { useNavigate } from "react-router-dom";
     };
 
     try {
-      const response = await fetch("http://localhost:5186/api/auth/register", {
+      const apiUrl = "https://fryreads-api-eyfpafgvenetcxgn.centralus-01.azurewebsites.net";
+      const response = await fetch(`${apiUrl}/api/auth/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(requestBody),

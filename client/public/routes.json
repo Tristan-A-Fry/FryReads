@@ -1,0 +1,24 @@
+{
+  "routes": [
+    {
+      "route": "/login",
+      "rewrite": "/index.html"
+    },
+    {
+      "route": "/register",
+      "rewrite": "/index.html"
+    },
+    {
+      "route": "/home",
+      "rewrite": "/index.html"
+    },
+    {
+      "route": "/search",
+      "rewrite": "/index.html"
+    },
+    {
+      "route": "/author/:authorName",
+      "rewrite": "/index.html"
+    }
+  ]
+}
