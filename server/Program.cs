@@ -110,10 +110,6 @@ builder.Services.AddScoped<IJwtService, JwtService>();
 builder.Services.AddScoped<IBookRepository, BookRepository >();
 builder.Services.AddScoped<IBookService, BookService>();
 
-builder.Services.AddScoped<IIsbnDbService, IsbnDbService>();
-
-builder.Services.AddHttpClient<IIsbnDbService, IsbnDbService>(); 
-
 var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
