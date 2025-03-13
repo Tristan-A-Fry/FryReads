@@ -1,12 +1,11 @@
 
 
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const SearchPage = () => {
   const [searchTerm, setSearchTerm] = useState(""); // State for the search input
-  const [searchType, setSearchType] = useState("isbn"); // Default search type
+  const [searchType, setSearchType] = useState(""); // Default search type
   const [language, setLanguage] = useState(""); // State to hold the selected language
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate(); // Initialize navigate
@@ -18,6 +17,11 @@ const SearchPage = () => {
 
     if (!searchTerm) {
       setErrorMessage("Please enter a search term.");
+      return;
+    }
+
+    if(!searchType){
+      setErrorMessage("Please enter a search type.");
       return;
     }
 
@@ -46,56 +50,63 @@ const SearchPage = () => {
   };
 
   return (
-    <div className="search-container max-w-6xl mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-4">Search for Books</h1>
+    <div className="search-container h-screen flex justify-center items-center bg-gray-900">
+      <div className="max-w-6xl p-4 text-center">
+        {/* Centered Text */}
+        <h1 className="text-3xl font-bold text-white mb-6">Search for Books</h1>
 
-      {/* Search Form */}
-      <form onSubmit={handleSearch} className="flex flex-col items-center space-y-4">
-        {/* Search by Dropdown */}
-        <div className="flex space-x-4">
-          <select
-            value={searchType}
-            onChange={(e) => setSearchType(e.target.value)}
-            className="p-3 border rounded-md w-64 text-lg"
+        {/* Search Form */}
+        <form onSubmit={handleSearch} className="flex flex-col items-center space-y-6">
+          {/* Search by Dropdown */}
+          <div className="flex space-x-6 mb-4">
+            <select
+              value={searchType}
+              onChange={(e) => setSearchType(e.target.value)}
+              className="w-[200px] p-4 text-lg text-gray-700 bg-white border-2 border-[#2ac9ff] rounded-full focus:outline-none focus:ring-2 focus:ring-[#2ac9ff] transition duration-200"
+            >
+              <option value="">Search By</option>
+              <option value="isbn">ISBN</option>
+              <option value="title">Title</option>
+              <option value="author">Author</option>
+            </select>
+
+            {/* Language Dropdown */}
+            <select
+              value={language}
+              onChange={(e) => setLanguage(e.target.value)}
+              className="w-[200px] p-4 text-lg text-gray-700 bg-white border-2 border-[#2ac9ff] rounded-full focus:outline-none focus:ring-2 focus:ring-[#2ac9ff] transition duration-200"
+            >
+              <option value="">Select Language (Optional)</option>
+              <option value="en">English</option>
+              <option value="es">Spanish</option>
+              <option value="fr">French</option>
+              <option value="de">German</option>
+              {/* Add more languages as needed */}
+            </select>
+          </div>
+
+          {/* Search Input */}
+          <input
+            type="text"
+            placeholder={`Search by ${searchType}`}
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-[700px] p-5 text-lg text-gray-700 border-2 border-[#2ac9ff] rounded-full focus:outline-none focus:ring-2 focus:ring-[#2ac9ff] transition duration-200"
+            required
+          />
+
+          {/* Search Button */}
+          <button
+            type="submit"
+            className="w-[200px] p-4 text-lg text-gray-700 bg-white border-2 border-[#2ac9ff] rounded-full focus:outline-none focus:ring-2 focus:ring-[#2ac9ff] transition duration-200"
           >
-            <option value="isbn">ISBN</option>
-            <option value="title">Title</option>
-            <option value="author">Author</option>
-          </select>
+            Search
+          </button>
+        </form>
 
-          {/* Language Dropdown */}
-          <select
-            value={language}
-            onChange={(e) => setLanguage(e.target.value)}
-            className="p-2 border rounded-md w-64 text-lg"
-          >
-            <option value="">Select Language (Optional)</option>
-            <option value="en">English</option>
-            <option value="es">Spanish</option>
-            <option value="fr">French</option>
-            <option value="de">German</option>
-            {/* Add more languages as needed */}
-          </select>
-        </div>
-
-        {/* Search Input */}
-        <input
-          type="text"
-          placeholder={`Search by ${searchType}`}
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="p-2 border rounded-md w-64 text-lg text-black"
-          required
-        />
-
-        {/* Search Button */}
-        <button type="submit" className="bg-blue-500 text-white p-2 rounded-md w-64 hover:bg-blue-600 transition">
-          Search
-        </button>
-      </form>
-
-      {/* Error Message */}
-      {errorMessage && <div className="text-red-500 text-center mt-4">{errorMessage}</div>}
+        {/* Error Message */}
+        {errorMessage && <div className="text-red-500 text-center mt-4">{errorMessage}</div>}
+      </div>
     </div>
   );
 };
