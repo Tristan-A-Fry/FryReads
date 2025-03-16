@@ -14,7 +14,6 @@ const LoginPage = () => {
     e.preventDefault();
 
     const apiUrl = process.env.REACT_APP_API_URL;
-    // const apiUrl = "https://fryreads-api-eyfpafgvenetcxgn.centralus-01.azurewebsites.net";
     const response = await fetch(`${apiUrl}/api/auth/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },

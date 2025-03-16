@@ -4,7 +4,7 @@ import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import SearchPage from "./pages/SearchPage";
-// import IsbnPage from "./pages/IsbnPage";
+import IsbnPage from "./pages/IsbnPage";
 import AuthorBooksPage from "./pages/AuthorBooksPage";
 import { AuthProvider } from "./context/AuthContext"; 
 import "./global.css";
@@ -19,7 +19,7 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/search" element={<SearchPage />} />
-          {/* <Route path="/isbn/:isbn" element={<IsbnPage />} /> */}
+          <Route path="/isbn/:isbnNum" element={<IsbnPage />} />
           <Route path="/author/:authorName" element={<AuthorBooksPage />} />
         </Routes>
       </Router>

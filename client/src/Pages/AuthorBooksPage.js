@@ -13,6 +13,8 @@ const AuthorBooksPage = () => {
   const [page, setPage] = useState(1); // Track the current page
 
   useEffect(() => {
+
+    const apiKey = process.env.REACT_APP_ISBN_API_KEY;
     const fetchBooksByAuthor = async () => {
       setLoading(true);
       setErrorMessage(""); // Reset error message before fetching new search
@@ -31,7 +33,7 @@ const AuthorBooksPage = () => {
             method: "GET",
             headers: {
               "accept": "application/json",
-              "Authorization": "58367_e1e324873af0ddf1ef1d12c022a6be13", // Add your ISBN API key here
+              "Authorization": apiKey, // Add your ISBN API key here
             },
           }
         );
