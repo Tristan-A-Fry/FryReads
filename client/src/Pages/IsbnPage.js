@@ -45,7 +45,7 @@ const IsbnPage = () => {
             method: "GET",
             headers: {
               "accept": "application/json",
-              "Authorization": "58367_e1e324873af0ddf1ef1d12c022a6be13", // Add your ISBN API key here
+              "Authorization": apiKey, // Add your ISBN API key here
             },
           }
         );

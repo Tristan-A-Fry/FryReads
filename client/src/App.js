@@ -6,6 +6,7 @@ import RegisterPage from "./pages/RegisterPage";
 import SearchPage from "./pages/SearchPage";
 import IsbnPage from "./pages/IsbnPage";
 import AuthorBooksPage from "./pages/AuthorBooksPage";
+import TitleSearchPage from "./pages/TitleSearchPage";
 import { AuthProvider } from "./context/AuthContext"; 
 import "./global.css";
 
@@ -21,6 +22,7 @@ function App() {
           <Route path="/search" element={<SearchPage />} />
           <Route path="/isbn/:isbnNum" element={<IsbnPage />} />
           <Route path="/author/:authorName" element={<AuthorBooksPage />} />
+          <Route path="/title/:titleBook" element={<TitleSearchPage />} />
         </Routes>
       </Router>
     </AuthProvider>

@@ -19,6 +19,10 @@
     {
       "route": "/author/:authorName",
       "rewrite": "/index.html"
+    },
+    {
+      "route": "/title/:titleBook",
+      "rewrite":"/index.html"
     }
   ]
 }

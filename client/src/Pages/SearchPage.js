@@ -32,7 +32,7 @@ const SearchPage = () => {
         // Redirect to ISBN detail page
         navigate(`/isbn/${searchTerm}`);
       } else if (searchType === "title") {
-        url = `http://localhost:5186/api/books/search?type=title&query=${searchTerm}`;
+        navigate(`/title/${searchTerm}`)
         // Proceed with the search if needed
       } else if (searchType === "author") {
         // Redirect to Author's books page
