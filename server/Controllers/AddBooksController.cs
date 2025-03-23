@@ -1,16 +1,17 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
+using server.Models;
 // using System.IdentityModel.Tokens.Jwt;
 
 [ApiController]
 [Route("api/books")]
 [Authorize] // ✅ Requires JWT authentication for all endpoints in this controller
-public class BookController : ControllerBase
+public class AddBooksController : ControllerBase
 {
-    private readonly IBookService _bookService;
+    private readonly IUserBooksService _bookService;
 
-    public BookController(IBookService bookService)
+    public AddBooksController(IUserBooksService bookService)
     {
         _bookService = bookService;
     }
@@ -49,5 +50,35 @@ public class BookController : ControllerBase
 
         var books = await _bookService.GetBooksByUserIdAsync(userId);
         return Ok(books);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> AddBook([FromBody] UserBook book)
+    {
+        string userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+        if (string.IsNullOrEmpty(userId))
+            return Unauthorized("Invalid user.");
+
+        book.UserId = userId;
+        book.AddedDate = DateTime.UtcNow;
+
+        await _bookService.AddBookAsync(book);
+        return Ok(book);
+    }
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateBook(int id, [FromBody] UserBook updatedBook)
+    {
+        string userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (string.IsNullOrEmpty(userId))
+            return Unauthorized("Invalid user.");
+
+        // Optional: validate ownership and book existence
+        updatedBook.Id = id;
+        updatedBook.UserId = userId;
+
+        await _bookService.UpdateBookAsync(updatedBook);
+        return NoContent();
     }
 }

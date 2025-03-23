@@ -23,6 +23,10 @@
     {
       "route": "/title/:titleBook",
       "rewrite":"/index.html"
+    },
+    {
+      "route": "/profile",
+      "rewrite":"/index.html"
     }
   ]
 }

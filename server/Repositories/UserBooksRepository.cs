@@ -2,21 +2,21 @@ using Microsoft.EntityFrameworkCore;
 using server.Data;
 using server.Models;
 
-public interface IBookRepository
+public interface IUserBooksRepository
 {
     Task<IEnumerable<UserBook>> GetBooksByUserIdAsync(string userId);
     Task AddBookAsync(UserBook book);
     Task UpdateBookAsync(UserBook book);
 }
 
-public class BookRepository : IBookRepository
+public class UserBooksRepository : IUserBooksRepository
 {
     private readonly ApplicationDbContext _context;
 
 
     // This is allowing us to interact with the database 
     // In english " When bookrepository is created give it a DB connection
-    public BookRepository(ApplicationDbContext context)
+    public UserBooksRepository(ApplicationDbContext context)
     {
         _context = context;
 

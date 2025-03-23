@@ -16,7 +16,6 @@ var secretKey = jwtSettings["Secret"];
 //For debugging
 // Console.WriteLine($"🔑 Secret Key (Program.cs): {secretKey}");  // ✅ Debugging
 
-// ✅ Add Swagger with JWT Authentication Support
 
 builder.Services.AddSwaggerGen(options =>
 {
@@ -56,7 +55,7 @@ builder.Services.AddSwaggerGen(options =>
 
 // Add database connection (Change to your connection string)
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("LocalConnection")));
 
 // Add Identity services
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
@@ -107,8 +106,8 @@ builder.Services.AddAuthorization();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IJwtService, JwtService>();
 
-builder.Services.AddScoped<IBookRepository, BookRepository>();
-builder.Services.AddScoped<IBookService, BookService>();
+builder.Services.AddScoped<IUserBooksRepository, UserBooksRepository>();
+builder.Services.AddScoped<IUserBooksService, UserBooksService>();
 
 var app = builder.Build();
 if (app.Environment.IsDevelopment())

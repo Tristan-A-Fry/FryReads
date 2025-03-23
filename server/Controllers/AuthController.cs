@@ -41,7 +41,8 @@ public class AuthController : ControllerBase
     
         if (result) {
             return Ok(new { message = "User registered successfully." }); // Return as JSON
-        } else {
+        } 
+        else {
             return BadRequest(new { error = "Registration failed." });
         }
     }

@@ -29,12 +29,18 @@ const Navbar = () => {
         </div>
         </nav>
 
-
-
-
         {/* Right Side Navigation Links */}
         <div className="space-x-12 text-lg font-semibold">
           <Link to="/" className="hover:text-gray-300">Home</Link>
+
+          {isAuthenticated && (
+            <Link
+              to="/profile"
+              className="hover:text-gray-300 transition"
+            >
+              Profile
+            </Link>
+          )}
 
           {isAuthenticated ? (
             <button
@@ -42,18 +48,17 @@ const Navbar = () => {
                 logout();
                 navigate("/login");
               }}
-              className="hover:text-gray-300 transition"
+              className="bg-[#2ac9ff] px-5 py-2 rounded-lg transition hover:bg-[#2ac9ff] hover:shadow-lg hover:shadow-[0_0_10px_#2ac9ff]"
             >
               Logout
             </button>
           ) : (
             <button
               onClick={() => navigate("/login")}
-                  className="bg-[#2ac9ff] px-5 py-2 rounded-lg transition hover:bg-[#2ac9ff] hover:shadow-lg hover:shadow-[0_0_10px_#2ac9ff]"
+              className="bg-[#2ac9ff] px-5 py-2 rounded-lg transition hover:bg-[#2ac9ff] hover:shadow-lg hover:shadow-[0_0_10px_#2ac9ff]"
             >
               Login
             </button>
-
           )}
         </div>
       </div>

@@ -1,16 +1,16 @@
 using server.Models;
-public interface IBookService
+public interface IUserBooksService
 {
     Task<IEnumerable<UserBook>> GetBooksByUserIdAsync(string userId);
     Task AddBookAsync(UserBook book);
     Task UpdateBookAsync(UserBook book);
 }
 
-public class BookService : IBookService
+public class UserBooksService : IUserBooksService
 {
-    private readonly IBookRepository _bookRepository;
+    private readonly IUserBooksRepository _bookRepository;
 
-    public BookService(IBookRepository bookRepository)
+    public UserBooksService(IUserBooksRepository bookRepository)
     {
         _bookRepository = bookRepository;
     }

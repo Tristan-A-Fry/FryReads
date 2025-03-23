@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { useParams, useLocation } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import { addBookToUserProfile } from "../utils/bookActions";
 
 const AuthorBooksPage = () => {
   const { authorName } = useParams(); // Extract author name from the URL
@@ -11,6 +13,7 @@ const AuthorBooksPage = () => {
   const [language, setLanguage] = useState(""); // Get language from query params
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1); // Track the current page
+  const navigate = useNavigate();
 
   useEffect(() => {
 
@@ -107,9 +110,18 @@ const AuthorBooksPage = () => {
               <div>
                 <h3 className="text-xl font-bold">{book.title}</h3>
                 {/* Display ISBN or ISBN13 under the title */}
+
                 <p className="text-sm">
                   ISBN: {book.isbn || book.isbn13 || "Not Available"}
-                </p>
+
+                  {/*TODO - HERE we will need to send and store this on the profile page */}
+                 <button onClick={() =>
+                  addBookToUserProfile(book, localStorage.getItem("token"), navigate)}
+                  className="p-4">
+                  Add to Profile 
+                  </button>
+
+                 </p>
               </div>
             </li>
           ))}
