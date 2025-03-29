@@ -1,6 +1,6 @@
-using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using server.Models;
 // using System.IdentityModel.Tokens.Jwt;
 
@@ -20,19 +20,19 @@ public class AddBooksController : ControllerBase
     public async Task<IActionResult> GetMyBooks()
     {
 
-      /* FOR DEBUGGING
-        Console.WriteLine("WE ARE INSIDE THE GET MY BOOKS METHOD()");
-        Console.WriteLine("Incoming Request Header:");
-        foreach (var header in Request.Headers)
-        {
-            Console.WriteLine($"   {header.Key}: {header.Value}");
-        }
+        /* FOR DEBUGGING
+          Console.WriteLine("WE ARE INSIDE THE GET MY BOOKS METHOD()");
+          Console.WriteLine("Incoming Request Header:");
+          foreach (var header in Request.Headers)
+          {
+              Console.WriteLine($"   {header.Key}: {header.Value}");
+          }
 
-        foreach (var claim in User.Claims) // 🔍 Print all claims for debugging
-        {
-            Console.WriteLine($"🔹 Claim: {claim.Type} = {claim.Value}");
-        }
-        */
+          foreach (var claim in User.Claims) // 🔍 Print all claims for debugging
+          {
+              Console.WriteLine($"🔹 Claim: {claim.Type} = {claim.Value}");
+          }
+          */
 
         string userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
@@ -44,7 +44,7 @@ public class AddBooksController : ControllerBase
 
             //For Debugging
             // Console.WriteLine("Could not Extract user ID");
-            
+
             return Unauthorized("Invalid user, Could not get the UserID");
         }
 
@@ -79,6 +79,18 @@ public class AddBooksController : ControllerBase
         updatedBook.UserId = userId;
 
         await _bookService.UpdateBookAsync(updatedBook);
+        return NoContent();
+    }
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteBook(int id)
+    {
+        string userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        var book = await _bookService.GetBookByIdAsync(id);
+
+        if (book == null || book.UserId != userId)
+            return NotFound();
+
+        await _bookService.DeleteBookAsync(book);
         return NoContent();
     }
 }

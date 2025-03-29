@@ -7,6 +7,8 @@ public interface IUserBooksRepository
     Task<IEnumerable<UserBook>> GetBooksByUserIdAsync(string userId);
     Task AddBookAsync(UserBook book);
     Task UpdateBookAsync(UserBook book);
+    Task<UserBook> GetBookByIdAsync(int id);
+    Task DeleteBookAsync(UserBook book);
 }
 
 public class UserBooksRepository : IUserBooksRepository
@@ -51,6 +53,17 @@ public class UserBooksRepository : IUserBooksRepository
     public async Task UpdateBookAsync(UserBook book)
     {
         _context.UserBooks.Update(book);
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task<UserBook> GetBookByIdAsync(int id)
+    {
+        return await _context.UserBooks.FindAsync(id);
+    }
+
+    public async Task DeleteBookAsync(UserBook book)
+    {
+        _context.UserBooks.Remove(book);
         await _context.SaveChangesAsync();
     }
 }

@@ -1,5 +1,6 @@
 
-export const addBookToUserProfile = async (book, token, navigate) => {
+export const addBookToUserProfile = async (book, _, navigate) => {
+  const token = localStorage.getItem("token"); // ✅ use directly here
   if (!token) {
     alert("You need to be logged in to add a book.");
     return;
@@ -8,8 +9,9 @@ export const addBookToUserProfile = async (book, token, navigate) => {
 
 const payload = {
   title: book.title || "Untitled",
-  author: book.author || "Unknown",
+  author: book.authors?.[0] || book.author || "Unknown",
   isbn: book.isbn || book.isbn13 || "Unknown",
+  image: book.image || book.image_url || null, // ✅ <-- Add this
   status: "Not Started",
   currentPage: 0,
   totalPages: book.pages || 0,
@@ -17,7 +19,8 @@ const payload = {
 };
 
   try {
-    const res = await fetch("http://localhost:5186/api/books", {
+    const apiUrl = process.env.REACT_APP_API_URL;
+    const res = await fetch(`${apiUrl}/api/books`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -26,14 +29,13 @@ const payload = {
       body: JSON.stringify(payload)
     });
 
-    if (res.ok) {
-      alert("📚 Book added to your profile!");
-      if (navigate) navigate("/profile"); // optional: only navigate if passed in
-    } else {
-      const err = await res.json();
-      console.error("Error adding book:", err);
-      alert("Failed to add book.");
-    }
+  if (res.ok) {
+    alert("📚 Book added to your profile!");
+    return true; // ✅ success
+  } else {
+    alert("Failed to add book.");
+    return false;
+  } 
   } catch (err) {
     console.error("Error:", err);
     alert("Something went wrong.");

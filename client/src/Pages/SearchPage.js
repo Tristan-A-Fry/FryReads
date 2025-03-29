@@ -50,7 +50,7 @@ const SearchPage = () => {
   };
 
   return (
-    <div className="search-container h-screen flex justify-center items-center bg-gray-900">
+    <div className="search-container p-64 flex justify-center items-center bg-gray-900">
       <div className="max-w-6xl p-4 text-center">
         {/* Centered Text */}
         <h1 className="text-3xl font-bold text-white mb-6">Search for Books</h1>

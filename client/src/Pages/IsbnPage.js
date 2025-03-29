@@ -1,6 +1,7 @@
 
 import { useState, useEffect } from "react";
 import { useParams, useLocation } from "react-router-dom";
+import { addBookToUserProfile } from "../utils/bookActions";
 
 const IsbnPage = () => {
   
@@ -10,6 +11,10 @@ const IsbnPage = () => {
   const { search } = useLocation(); // Access the URL query parameters
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const [books, setBooks] = useState([]);
+  const [userBooks, setUserBooks] = useState([]);
+
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
     const apiKey = process.env.REACT_APP_ISBN_API_KEY;
@@ -69,6 +74,27 @@ const IsbnPage = () => {
     fetchBooksByIsbn();
   }, [isbnNum]);
 
+
+  useEffect(() => {
+    const apiUrl = process.env.REACT_APP_API_URL;
+    const fetchUserBooks = async () => {
+      if (!localStorage.getItem("token")) return;
+
+      const res = await fetch(`${apiUrl}/api/books/my-books`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        setUserBooks(data);
+      }
+    };
+
+    fetchUserBooks();
+  }, []);
+
   if (loading) {
     return <div className="text-white text-center">Loading...</div>;
   }
@@ -83,8 +109,28 @@ const IsbnPage = () => {
 
 
 
+  const handleAddBook = async (book) => {
+    const added = await addBookToUserProfile(book);
+
+    if (added) {
+      const incomingIsbn = book.isbn || book.isbn13;
+      setUserBooks((prev) => [
+        ...prev,
+        {
+          isbn: incomingIsbn,
+        },
+      ]);
+    }
+  };
+
+  // ✅ When rendering the book
+  const isAlreadyAdded = bookData && userBooks.some(
+    (b) => b.isbn === (bookData.isbn || bookData.isbn13)
+  );
+
+
   return (
-    <div className="text-white p-6 h-screen flex justify-center items-center">
+    <div className="text-white p-32 flex justify-center items-center">
       <div className="bg-gray-800 rounded-xl p-8 shadow-lg w-full max-w-3xl">
         <div className="flex flex-col items-center space-y-4">
           {/* Book Image */}
@@ -106,6 +152,18 @@ const IsbnPage = () => {
             <p><strong>Pages:</strong> {additionalData.pages}</p>
             <p><strong>Published:</strong> {additionalData.date_published}</p>
             <p><strong>Language:</strong> {bookData.language}</p>
+            <div>
+              {isAlreadyAdded ? (
+                <span className="text-green-400 text-sm font-medium">✅ Already in Profile</span>
+              ) : (
+                <button
+                  onClick={() => handleAddBook(bookData)}
+                  className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
+                >
+                  Add to Profile
+                </button>
+              )}
+            </div>
           </div>
         </div>
       </div>

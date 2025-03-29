@@ -45,7 +45,7 @@ const HomePage = () => {
             Fryreads is a personal hobby project. Built using .Net Core, and React, hosted on Microsofts Azure.
             We use the ISBN database api found <a href ="https://isbndb.com/" className="text-[#2ac9ff] hover:underline">here</a>, to gather books. 
             Please note this is a hobby project and I make and intend to make no money off of it.
-            You can also view the source code <a href ="" className="text-[#2ac9ff] hover:underline">here</a>, on github.
+            You can also view the source code <a href ="https://github.com/Tristan-A-Fry/FryReads" className="text-[#2ac9ff] hover:underline">here</a>, on github.
         </p>
       </section>
 

@@ -17,11 +17,19 @@
       "rewrite": "/index.html"
     },
     {
-      "route": "/author/:authorName",
+      "route": "/author",
       "rewrite": "/index.html"
     },
     {
-      "route": "/title/:titleBook",
+      "route": "/author/*",
+      "rewrite": "/index.html"
+    },
+    {
+      "route": "/title",
+      "rewrite":"/index.html"
+    },
+    {
+      "route": "/title/*",
       "rewrite":"/index.html"
     },
     {

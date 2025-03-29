@@ -6,7 +6,7 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   return (
-    <nav className="bg-gray-800 text-white p-4 fixed top-0 w-full shadow-md">
+    <nav className="bg-gray-800 text-white p-4 top-0 w-full shadow-md">
       <div className="max-w-6xl mx-auto flex justify-between items-center">
         {/* App Name / Logo */}
         <Link to="/" className="text-xl font-bold text-white">
@@ -21,6 +21,7 @@ const Navbar = () => {
           <button
             onClick={() => {
               navigate("/search");
+
             }}
             className="hover:text-gray-300 transition"
           >

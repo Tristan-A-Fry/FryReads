@@ -4,6 +4,8 @@ public interface IUserBooksService
     Task<IEnumerable<UserBook>> GetBooksByUserIdAsync(string userId);
     Task AddBookAsync(UserBook book);
     Task UpdateBookAsync(UserBook book);
+    Task<UserBook> GetBookByIdAsync(int id);          // ✅ NEW
+    Task DeleteBookAsync(UserBook book);
 }
 
 public class UserBooksService : IUserBooksService
@@ -29,4 +31,14 @@ public class UserBooksService : IUserBooksService
     {
         await _bookRepository.UpdateBookAsync(book);
     }
+    public async Task<UserBook> GetBookByIdAsync(int id)
+    {
+        return await _bookRepository.GetBookByIdAsync(id);
+    }
+
+    public async Task DeleteBookAsync(UserBook book)
+    {
+        await _bookRepository.DeleteBookAsync(book);
+    }
+
 }

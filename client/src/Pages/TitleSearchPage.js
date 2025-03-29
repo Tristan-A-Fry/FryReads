@@ -2,9 +2,9 @@
 
 import { useState, useEffect } from "react";
 import { useParams, useLocation } from "react-router-dom";
+import { addBookToUserProfile } from "../utils/bookActions";
 
-
-const TitleSeahrchPage = () => {
+const TitleSearchPage = () => {
   const { titleBook } = useParams(); // Extract author name from the URL
   const { search } = useLocation(); // Access the URL query parameters
   const [books, setBooks] = useState([]);
@@ -12,6 +12,8 @@ const TitleSeahrchPage = () => {
   const [language, setLanguage] = useState(""); // Get language from query params
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1); // Track the current page
+  const [userBooks, setUserBooks] = useState([]);
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
 
@@ -73,62 +75,101 @@ const TitleSeahrchPage = () => {
     return () => window.removeEventListener("scroll", handleScroll); // Clean up on unmount
   }, [loading]);
 
+  useEffect(() => {
+    const apiUrl = process.env.REACT_APP_API_URL;
+    const fetchUserBooks = async () => {
+      if (!localStorage.getItem("token")) return;
+
+      const res = await fetch(`${apiUrl}/api/books/my-books`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        setUserBooks(data);
+      }
+    };
+
+    fetchUserBooks();
+  }, []);
+
   // If there is an error message, display it
   if (errorMessage) {
     return <div className="text-red-500 text-center mt-4">{errorMessage}</div>;
   }
 
 
+  const handleAddBook = async (book) => {
+    const added = await addBookToUserProfile(book);
 
+    if (added) {
+      const incomingIsbn = book.isbn || book.isbn13;
+      setUserBooks((prev) => [
+        ...prev,
+        {
+          isbn: incomingIsbn,
+        },
+      ]);
+    }
+  };
 
+ return (
+    <div className="max-w-6xl mx-auto p-4 pt-24">
+      <h1 className="text-3xl font-bold mb-4">Books found with "{titleBook}"</h1>
 
-  return (
-    <div className="max-w-6xl mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-4">Books by {titleBook}</h1>
-
-      {/* Language filter dropdown */}
-      <div className="mb-4">
-        <label htmlFor="language" className="mr-2">Select Language:</label>
-        <select
-          id="language"
-          value={language}
-          onChange={(e) => setLanguage(e.target.value)}
-          className="p-2 border rounded-md"
-        >
-          <option value="">All Languages</option>
-          <option value="en">English</option>
-          <option value="pl">Polish</option>
-          {/* Add other language options as needed */}
-        </select>
-      </div>
+      {errorMessage && <div className="text-red-500">{errorMessage}</div>}
 
       {loading && <p>Loading...</p>}
 
       {books.length > 0 ? (
         <ul>
-          {books.map((book, index) => (
-            <li key={index} className="mb-2 p-2 bg-gray-800 text-white rounded-md flex items-center space-x-4">
-              {/* Display Book Image */}
-              <img src={book.image} alt={book.title} className="w-16 h-16 object-cover rounded-md" />
-              <div>
-                <h3 className="text-xl font-bold">{book.title}</h3>
-                {/* Display ISBN or ISBN13 under the title */}
-                <p className="text-sm">
-                  ISBN: <span className="mr-4">{book.isbn || book.isbn13 || "Not Available"}</span>
-                  <span>Language: {book.language || "Not Available"}</span>
-                </p>
-              </div>
-            </li>
-          ))}
+          {books.map((book, index) => {
+            const isAlreadyAdded = userBooks.some(
+              (b) => b.isbn === (book.isbn || book.isbn13)
+            );
+
+            return (
+              <li
+                key={index}
+                className="mb-4 p-4 bg-gray-800 text-white rounded-md flex items-center space-x-4"
+              >
+                <img
+                  src={book.image || "https://via.placeholder.com/100x140?text=No+Image"}
+                  alt={book.title}
+                  className="w-20 h-28 object-cover rounded"
+                />
+                <div className="flex-1">
+                  <h3 className="text-xl font-bold">{book.title}</h3>
+                  <p className="text-sm text-gray-300">
+                    ISBN: {book.isbn || book.isbn13 || "N/A"}
+                  </p>
+                </div>
+
+                {/* ✅ Conditional Button */}
+                <div>
+                  {isAlreadyAdded ? (
+                    <span className="text-green-400 text-sm font-medium">✅ Already in Profile</span>
+                  ) : (
+                    <button
+                      onClick={() => handleAddBook(book)}
+                      className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
+                    >
+                      Add to Profile
+                    </button>
+                  )}
+                </div>
+              </li>
+            );
+          })}
         </ul>
       ) : (
         <p>No books found by this title.</p>
       )}
-
-      {/* Optionally you can show a "Loading more..." message or loading indicator */}
-      {loading && <div>Loading more books...</div>}
     </div>
   );
 };
 
-export default TitleSeahrchPage;
+
+export default TitleSearchPage;
