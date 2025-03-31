@@ -56,7 +56,7 @@ import { useNavigate } from "react-router-dom";
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-900">
+    <div className="flex items-start justify-center min-h-screen bg-gray-900 pt-80">
       <div className="bg-gray-800 text-white p-8 rounded-lg shadow-lg w-96">
         <h2 className="text-2xl font-semibold text-center mb-4">Register</h2>
         {errorMessage && <div className="text-red-500 text-center mb-4">{errorMessage}</div>} {/* Error message display */}

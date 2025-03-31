@@ -2,7 +2,7 @@ import { useNavigate, Link } from "react-router-dom";
 const HomePage = () => {
   const navigate = useNavigate();
   return (
-    <div className="bg-gray-900 min-h-screen flex flex-col items-center justify-center text-white py-12">
+    <div className="bg-gray-900 min-h-screen flex flex-col items-center text-white pt-20">
       <div className="text-center">
         <h1 className="text-4xl font-bold mb-4">Welcome to Fryreads</h1>
         <p className="text-xl mb-6">A book tracking app to manage and discover your favorite books.</p>
@@ -31,7 +31,7 @@ const HomePage = () => {
       </div>
 
       {/* Add any additional sections below */}
-      <section className="mt-12 max-w-4xl text-center">
+      <section className="mt-10 max-w-4xl text-center">
         <h2 className="text-3xl font-semibold mb-4">Why Fryreads?</h2>
         <p className="text-lg mb-6">
           Organize your reading journey with features that let you track the books you're reading, discover new titles,
@@ -39,24 +39,38 @@ const HomePage = () => {
         </p>
       </section>
 
-      <section className="mt-12 max-w-4xl text-center">
+      <section className="mt-10 max-w-4xl text-center">
         <h2 className="text-3xl font-semibold mb-4">About Fryreads</h2>
         <p className="text-lg mb-6">
-            Fryreads is a personal hobby project. Built using .Net Core, and React, hosted on Microsofts Azure.
-            We use the ISBN database api found <a href ="https://isbndb.com/" className="text-[#2ac9ff] hover:underline">here</a>, to gather books. 
+            Fryreads is a personal hobby project. Built using .Net Core, React, and PostgresSql hosted on Microsofts Azure.
+
+            We use the ISBN database api found <a href ="https://isbndb.com/" className="text-[#2ac9ff] hover:underline">here</a>, to gather books, then I
+            store user related information in my own database. 
+
             Please note this is a hobby project and I make and intend to make no money off of it.
-            You can also view the source code <a href ="https://github.com/Tristan-A-Fry/FryReads" className="text-[#2ac9ff] hover:underline">here</a>, on github.
+
+            You can also view the source code <a href ="https://github.com/Tristan-A-Fry/FryReads" className="text-[#2ac9ff] hover:underline">here</a>, on github. 
+            Also note that I do pay a monthly fee to have access to the ISBN DB api.
         </p>
       </section>
 
-      <section className="mt-12 max-w-4xl text-center">
+      <section className="mt-10 max-w-4xl text-center">
+        <h2 className="text-3xl font-semibold mb-4">Extra Information</h2>
+        <p className="text-lg mb-6">
+
+          Please see the "Info" tab to learn more about the project, features to come, and issues currently with the application.
+
+        </p>
+      </section>
+
+      <section className="mt-10 max-w-4xl text-center">
         <h2 className="text-3xl font-semibold mb-4">Learn more about me and my other projects</h2>
         <p className="text-lg mb-6">
             <a href ="https://tristanfry.com/" className="text-[#2ac9ff] hover:underline">Personal Website</a>
         </p>
       </section>
 
-        <section className="mt-12 max-w-4xl text-center">
+        <section className="mt-10 max-w-4xl text-center">
         <h2 className="text-3xl font-semibold mb-4">Socials</h2>
 
         <div className="flex justify-center space-x-6">

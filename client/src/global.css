@@ -8,3 +8,6 @@ body {
   @apply bg-gray-900 text-white;
 }
 
+ul{
+  list-style-type:circle; /* back-up */
+}
