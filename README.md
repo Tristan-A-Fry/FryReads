@@ -6,7 +6,7 @@ Check out the production link -> https://lively-ocean-0565abc10.6.azurestaticapp
 
 # What is FryReads
 
-Fryreads is a A book tracking app to manage and discover your favorite books. This is a personal hobby project, built using .Net Core, React, and PostgresSQL hosted on Microsofts Azure. We use the ISBN database api found [here](https://isbndb.com/), to gather books. Please note this is a hobby project and I make and intend to make no money off of it. Aslo note that I do pay a monthly fee to use the ISBN DB api.
+Fryreads is a A book tracking app to manage and discover your favorite books. This is a personal hobby project, built using .Net Core, React, and PostgresSQL hosted on Microsofts Azure. We use the ISBN database api found [here](https://isbndb.com/), to gather books then store user related books and info in my own database. Please note this is a hobby project and I make and intend to make no money off of it. Aslo note that I do pay a monthly fee to use the ISBN DB api.
 
 # Common Issues
 
