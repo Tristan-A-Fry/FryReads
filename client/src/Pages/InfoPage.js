@@ -3,7 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 
 const InfoPage = () => {
   return (
-    <div className="bg-gray-900 min-h-screen flex flex-col items-center text-white pt-24">
+    <div className="bg-gray-900 min-h-screen flex flex-col items-center text-white pt-24 px-4 sm:px-6 md:px-8">
       
       <section className="mt-10 max-w-4xl text-center">
         <h2 className="text-3xl font-semibold mb-4">Issues</h2>

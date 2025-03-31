@@ -2,7 +2,7 @@ import { useNavigate, Link } from "react-router-dom";
 const HomePage = () => {
   const navigate = useNavigate();
   return (
-    <div className="bg-gray-900 min-h-screen flex flex-col items-center text-white pt-20">
+    <div className="bg-gray-900 min-h-screen flex flex-col items-center text-white pt-20 px-4 sm:px-6 md:px-8">
       <div className="text-center">
         <h1 className="text-4xl font-bold mb-4">Welcome to Fryreads</h1>
         <p className="text-xl mb-6">A book tracking app to manage and discover your favorite books.</p>
