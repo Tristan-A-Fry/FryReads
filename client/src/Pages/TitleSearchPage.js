@@ -1,8 +1,10 @@
 
 
 import { useState, useEffect } from "react";
-import { useParams, useLocation } from "react-router-dom";
-import { addBookToUserProfile } from "../utils/bookActions";
+import { useParams, useLocation, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { addBookToUserProfile, lan } from "../utils/bookActions";
+import languageData from "../utils/languageData";
 
 const TitleSearchPage = () => {
   const { titleBook } = useParams(); // Extract author name from the URL
@@ -14,6 +16,7 @@ const TitleSearchPage = () => {
   const [page, setPage] = useState(1); // Track the current page
   const [userBooks, setUserBooks] = useState([]);
   const token = localStorage.getItem("token");
+  const navigate = useNavigate();
 
   useEffect(() => {
 
@@ -52,7 +55,7 @@ const TitleSearchPage = () => {
 
         // Sort books alphabetically and append them to existing books
         const sortedBooks = data.books.sort((a, b) => a.title.localeCompare(b.title));
-        setBooks(prevBooks => [...prevBooks, ...sortedBooks]); // Append new books
+        setBooks(page === 1 ? sortedBooks : prevBooks => [...prevBooks, ...sortedBooks]); // Append new books
       } catch (error) {
         console.error("Error fetching books by title:", error);
         setErrorMessage("An error occurred while fetching books.");
@@ -63,6 +66,12 @@ const TitleSearchPage = () => {
 
     fetchBooksByTitle();
     }, [titleBook, page, search]); // Depend on authorName, page, and language filter changes
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(search);
+    const selectedLanguage = urlParams.get("language") || "";
+    setLanguage(selectedLanguage);
+  }, [search]);
 
   useEffect(() => {
     // Infinite scroll detection
@@ -123,6 +132,29 @@ const TitleSearchPage = () => {
 
       {loading && <p>Loading...</p>}
 
+      <div className="mb-4">
+        <label htmlFor="language" className="mr-2">Select Language:</label>
+        <select
+          id="language"
+          value={language}
+          onChange={(e) => 
+          {
+            const newLanguage = e.target.value;
+            setLanguage(newLanguage);
+            navigate(`?language=${newLanguage}`);
+            }}
+          className="p-2 border rounded-md"
+        >
+          <option value="">All Languages</option>
+          <option value="en">English</option>
+          <option value="de">German</option>
+          <option value="fr">French</option>
+          <option value="pl">Polish</option>
+          <option value="es">Spanish</option>
+          <option value="ru">Russian</option>
+        </select>
+      </div>
+    
       {books.length > 0 ? (
         <ul>
           {books.map((book, index) => {
@@ -135,31 +167,37 @@ const TitleSearchPage = () => {
                 key={index}
                 className="mb-4 p-4 bg-gray-800 text-white rounded-md flex items-center space-x-4"
               >
-                <img
-                  src={book.image || "https://via.placeholder.com/100x140?text=No+Image"}
-                  alt={book.title}
-                  className="w-20 h-28 object-cover rounded"
-                />
-                <div className="flex-1">
-                  <h3 className="text-xl font-bold">{book.title}</h3>
-                  <p className="text-sm text-gray-300">
-                    ISBN: {book.isbn || book.isbn13 || "N/A"}
-                  </p>
-                </div>
+                 <Link 
+                  to={`/isbn/${book.isbn}`}
+                  className="flex items-center space-x-4 flex-1 hover:underline"
+                >
+                  <img
+                    src={book.image || "https://via.placeholder.com/100x140?text=No+Image"}
+                    alt={book.title}
+                    className="w-20 h-28 object-cover rounded"
+                  />
+                  <div className="flex-1">
+                    <h3 className="text-xl font-bold">{book.title}</h3>
+                    <p className="text-sm text-gray-300">
+                      ISBN: {book.isbn || book.isbn13 || "N/A"}
+                      <span className="ml-6">Language: {languageData[book.language] || "N/A"}</span>
+                    </p>
+                  </div>
+                  </Link>
 
-                {/* ✅ Conditional Button */}
-                <div>
-                  {isAlreadyAdded ? (
-                    <span className="text-green-400 text-sm font-medium">✅ Already in Profile</span>
-                  ) : (
-                    <button
-                      onClick={() => handleAddBook(book)}
-                      className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
-                    >
-                      Add to Profile
-                    </button>
-                  )}
-                </div>
+                  {/* ✅ Conditional Button */}
+                  <div>
+                    {isAlreadyAdded ? (
+                      <span className="text-green-400 text-sm font-medium">✅ Already in Profile</span>
+                    ) : (
+                      <button
+                        onClick={() => handleAddBook(book)}
+                        className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
+                      >
+                        Add to Profile
+                      </button>
+                    )}
+                  </div>
               </li>
             );
           })}

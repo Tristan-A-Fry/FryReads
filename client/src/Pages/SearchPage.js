@@ -75,9 +75,11 @@ const SearchPage = () => {
             >
               <option value="">Select Language (Optional)</option>
               <option value="en">English</option>
-              <option value="es">Spanish</option>
-              <option value="fr">French</option>
               <option value="de">German</option>
+              <option value="fr">French</option>
+              <option value="pl">Polish</option>
+              <option value="es">Spanish</option>
+              <option value="ru">Russian</option>
             </select>
           </div>
 

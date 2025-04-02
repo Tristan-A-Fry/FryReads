@@ -1,8 +1,10 @@
 
 
 import { useState, useEffect } from "react";
-import { useParams, useLocation } from "react-router-dom";
+import { useParams, useLocation, Link} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { addBookToUserProfile } from "../utils/bookActions";
+import languageData from "../utils/languageData";
 
 const AuthorBooksPage = () => {
   const { authorName } = useParams(); // Extract author name from the URL
@@ -13,6 +15,7 @@ const AuthorBooksPage = () => {
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1); // Track the current page
   const [userBooks, setUserBooks] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
 
@@ -50,7 +53,8 @@ const AuthorBooksPage = () => {
 
         // Sort books alphabetically and append them to existing books
         const sortedBooks = data.books.sort((a, b) => a.title.localeCompare(b.title));
-        setBooks(prevBooks => [...prevBooks, ...sortedBooks]); // Append new books
+        // setBooks(prevBooks => [...prevBooks, ...sortedBooks]); // Append new books
+        setBooks(page === 1 ? sortedBooks : prevBooks => [...prevBooks, ...sortedBooks]); // Append new books
       } catch (error) {
         console.error("Error fetching books by author:", error);
         setErrorMessage("An error occurred while fetching books.");
@@ -61,6 +65,12 @@ const AuthorBooksPage = () => {
 
     fetchBooksByAuthor();
   }, [authorName, page, search]); // Depend on authorName, page, and language filter changes
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(search);
+    const selectedLanguage = urlParams.get("language") || "";
+    setLanguage(selectedLanguage);
+  }, [search]);
 
   useEffect(() => {
     const apiUrl = process.env.REACT_APP_API_URL;
@@ -112,21 +122,6 @@ const AuthorBooksPage = () => {
     }
   };
 
-    /* TODO: add this back in when I fix langauge dropdown*/
-      // <div className="mb-4">
-      //   <label htmlFor="language" className="mr-2">Select Language:</label>
-      //   <select
-      //     id="language"
-      //     value={language}
-      //     onChange={(e) => setLanguage(e.target.value)}
-      //     className="p-2 border rounded-md"
-      //   >
-      //     <option value="">All Languages</option>
-      //     <option value="en">English</option>
-      //     <option value="pl">Polish</option>
-      //   </select>
-      // </div>
-
   return (
     <div className="max-w-6xl mx-auto p-4 pt-24">
       <h1 className="text-3xl font-bold mb-4">Books by {authorName}</h1>
@@ -134,6 +129,29 @@ const AuthorBooksPage = () => {
       {errorMessage && <div className="text-red-500">{errorMessage}</div>}
 
       {loading && <p>Loading...</p>}
+
+      <div className="mb-4">
+        <label htmlFor="language" className="mr-2">Select Language:</label>
+        <select
+          id="language"
+          value={language}
+          onChange={(e) => 
+          {
+            const newLanguage = e.target.value;
+            setLanguage(newLanguage);
+            navigate(`?language=${newLanguage}`);
+            }}
+          className="p-2 border rounded-md"
+        >
+          <option value="">All Languages</option>
+          <option value="en">English</option>
+          <option value="de">German</option>
+          <option value="fr">French</option>
+          <option value="pl">Polish</option>
+          <option value="es">Spanish</option>
+          <option value="ru">Russian</option>
+        </select>
+      </div>
 
       {books.length > 0 ? (
         <ul>
@@ -147,31 +165,37 @@ const AuthorBooksPage = () => {
                 key={index}
                 className="mb-4 p-4 bg-gray-800 text-white rounded-md flex items-center space-x-4"
               >
-                <img
-                  src={book.image || "https://via.placeholder.com/100x140?text=No+Image"}
-                  alt={book.title}
-                  className="w-20 h-28 object-cover rounded"
-                />
-                <div className="flex-1">
-                  <h3 className="text-xl font-bold">{book.title}</h3>
-                  <p className="text-sm text-gray-300">
-                    ISBN: {book.isbn || book.isbn13 || "N/A"}
-                  </p>
-                </div>
+                <Link 
+                  to={`/isbn/${book.isbn}`}
+                  className="flex items-center space-x-4 flex-1 hover:underline"
+                >
+                  <img
+                    src={book.image || "https://via.placeholder.com/100x140?text=No+Image"}
+                    alt={book.title}
+                    className="w-20 h-28 object-cover rounded"
+                  />
+                  <div className="flex-1">
+                    <h3 className="text-xl font-bold">{book.title}</h3>
+                    <p className="text-sm text-gray-300">
+                      ISBN: {book.isbn || book.isbn13 || "N/A"}
+                      <span className="ml-6">Language: {languageData[book.language] || "N/A"}</span>
+                    </p>
+                  </div>
+                  </Link>
 
-                {/* ✅ Conditional Button */}
-                <div>
-                  {isAlreadyAdded ? (
-                    <span className="text-green-400 text-sm font-medium">✅ Already in Profile</span>
-                  ) : (
-                    <button
-                      onClick={() => handleAddBook(book)}
-                      className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
-                    >
-                      Add to Profile
-                    </button>
-                  )}
-                </div>
+                  {/* ✅ Conditional Button */}
+                  <div>
+                    {isAlreadyAdded ? (
+                      <span className="text-green-400 text-sm font-medium">✅ Already in Profile</span>
+                    ) : (
+                      <button
+                        onClick={() => handleAddBook(book)}
+                        className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
+                      >
+                        Add to Profile
+                      </button>
+                    )}
+                  </div>
               </li>
             );
           })}

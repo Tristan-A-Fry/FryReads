@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { useParams, useLocation } from "react-router-dom";
 import { addBookToUserProfile } from "../utils/bookActions";
+import languageData from "../utils/languageData"
 
 const IsbnPage = () => {
   
@@ -20,7 +21,7 @@ const IsbnPage = () => {
     const apiKey = process.env.REACT_APP_ISBN_API_KEY;
     const fetchBooksByIsbn = async () => {
       setLoading(true);
-      setErrorMessage(""); // Reset error message before fetching new search
+      setErrorMessage(""); 
 
       try {
         // First API call for basic book data
@@ -145,13 +146,15 @@ const IsbnPage = () => {
 
           {/* ISBN, ISBN10, and ISBN13 */}
           <div className="text-lg space-y-2">
+            <p><strong>Synopsis:</strong> {bookData.synopsis}</p>
             <p><strong>Author(s):</strong> {bookData.authors.join(", ")}</p>
             <p><strong>ISBN:</strong> {bookData.isbn}</p>
             <p><strong>ISBN10:</strong> {bookData.isbn10}</p>
             <p><strong>ISBN13:</strong> {bookData.isbn13}</p>
             <p><strong>Pages:</strong> {additionalData.pages}</p>
+            <p><strong>Publisher(s):</strong> {bookData.publisher}</p>
             <p><strong>Published:</strong> {additionalData.date_published}</p>
-            <p><strong>Language:</strong> {bookData.language}</p>
+            <p><strong>Language:</strong> {languageData[bookData.language]}</p>
             <div>
               {isAlreadyAdded ? (
                 <span className="text-green-400 text-sm font-medium">✅ Already in Profile</span>

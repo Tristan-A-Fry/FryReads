@@ -1,6 +1,10 @@
+
+import { useAuth } from "../context/AuthContext";
 import { useNavigate, Link } from "react-router-dom";
 const HomePage = () => {
   const navigate = useNavigate();
+  const { isAuthenticated, logout } = useAuth();
+
   return (
     <div className="bg-gray-900 min-h-screen flex flex-col items-center text-white pt-20 px-4 sm:px-6 md:px-8">
       <div className="text-center">
@@ -21,12 +25,25 @@ const HomePage = () => {
             >
               Start Browsing 
             </button>
-            <button
-              onClick={() => navigate("/login")}
-                  className="bg-[#2ac9ff] px-5 py-2 rounded-lg transition hover:bg-[#2ac9ff] hover:shadow-lg hover:shadow-[0_0_10px_#2ac9ff]"
-            >
-              Login
-            </button>
+
+            {isAuthenticated ? (
+              <button
+                onClick={() => {
+                  logout();
+                  navigate("/login");
+                }}
+                className="bg-[#2ac9ff] px-5 py-2 rounded-lg hover:shadow-lg hover:shadow-[0_0_10px_#2ac9ff]"
+              >
+                Logout
+              </button>
+            ) : (
+              <button
+                onClick={() => navigate("/login")}
+                className="bg-[#2ac9ff] px-5 py-2 rounded-lg hover:shadow-lg hover:shadow-[0_0_10px_#2ac9ff]"
+              >
+                Login
+              </button>
+            )}
         </div>
       </div>
 
