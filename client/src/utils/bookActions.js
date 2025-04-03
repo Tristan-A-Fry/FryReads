@@ -12,7 +12,7 @@ const payload = {
   author: book.authors?.[0] || book.author || "Unknown",
   isbn: book.isbn || book.isbn13 || "Unknown",
   image: book.image || book.image_url || null, // ✅ <-- Add this
-  status: "Not Started",
+  status: "Planning",
   currentPage: 0,
   totalPages: book.pages || 0,
   isCompleted: false
