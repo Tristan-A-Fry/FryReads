@@ -15,7 +15,11 @@ const payload = {
   status: "Planning",
   currentPage: 0,
   totalPages: book.pages || 0,
-  isCompleted: false
+  isCompleted: false,
+  addedDate: null,
+  completedDate: null,
+  notes : "Empty"
+
 };
 
   try {

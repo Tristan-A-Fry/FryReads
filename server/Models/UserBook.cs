@@ -29,7 +29,10 @@ namespace server.Models
     public int TotalPages { get; set; }
     public bool IsCompleted { get; set; }
 
-    public DateTime AddedDate { get; set; }
+    public DateTime? AddedDate { get; set; }
+    public DateTime? CompletedDate { get; set; }
+
+    public string? Notes { get; set; }
 
   }
 }

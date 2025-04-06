@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { EllipsisVerticalIcon } from "@heroicons/react/24/outline";
 
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { CalendarDaysIcon } from "@heroicons/react/24/outline"; // optional icon
+
 const UserProfilePage = () => {
   const [books, setBooks] = useState([]);
   const [editingBook, setEditingBook] = useState(null);
@@ -104,7 +108,7 @@ const UserProfilePage = () => {
             >
               <div className="absolute top-2 right-2 z-10">
                 <button
-                  className="p-1 bg-gray-700 rounded-full hover:bg-blue-500 transition"
+                  className="p-1 bg-gray-700 rounded-full hover:bg-green-400 transition"
                   onClick={() => setEditingBook(book)}
                   title="Edit"
                 >
@@ -134,7 +138,7 @@ const UserProfilePage = () => {
       {/* Edit modal */}
       {editingBook && (
         <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
-          <div className="bg-[#1e1e2f] p-6 rounded-lg max-w-lg w-full relative text-white">
+          <div className="bg-[#151f2e] p-6 rounded-lg max-w-5xl w-full relative text-white">
             <button
               onClick={() => setEditingBook(null)}
               className="absolute top-2 right-2 text-white text-xl"
@@ -142,7 +146,7 @@ const UserProfilePage = () => {
               ×
             </button>
 
-            <h2 className="text-2xl font-bold mb-4">Edit Book</h2>
+            <h2 className="text-2xl font-bold mb-4">Edit Book : "{editingBook.title}"</h2>
 
             <form
               onSubmit={async (e) => {
@@ -169,6 +173,7 @@ const UserProfilePage = () => {
                   ...editingBook,
                   status,
                   currentPage,
+                  notes: editingBook.notes,
                 };
 
                 try {
@@ -197,11 +202,11 @@ const UserProfilePage = () => {
               }}
             >
               <div className="mb-4">
-                <label className="block mb-1">Status</label>
+                <label className="block mb-1 text-[#798ba1]">Status</label>
                 <select
                   name="status"
                   defaultValue={editingBook.status}
-                  className="w-full p-2 rounded text-black"
+                  className="w-full p-2 rounded font-bold text-[#a6b3c1] bg-[#0b1622]"
                 >
                   <option>Planning</option>
                   <option>Reading</option>
@@ -210,13 +215,58 @@ const UserProfilePage = () => {
               </div>
 
               <div className="mb-4">
-                <label className="block mb-1">Current Page</label>
+                <label className="block mb-1 text-[#798ba1]">Current Page</label>
                 <input
                   type="number"
                   name="currentPage"
                   defaultValue={editingBook.currentPage}
-                  className="w-full p-2 rounded text-black"
+                  className="w-full p-2 rounded  font-bold text-[#a6b3c1] bg-[#0b1622] focus:outline-none focus:ring-0"
                 />
+              </div>
+              
+              {/* Add Start Date */}
+              <div className="flex flex-col text-sm text-[#798ba1] mb-4 w-full">
+                <label className="mb-2">Start Date</label>
+                <div className="relative">
+                  <DatePicker
+                    selected={editingBook.startDate ? new Date(editingBook.startDate) : null}
+                    onChange={(date) =>
+                      setEditingBook({ ...editingBook, startDate: date })
+                    }
+                    dateFormat="yyyy-MM-dd"
+                    className="w-full bg-[#0b1622] text-[#a6b3c1] font-bold rounded-lg p-3 pl-10 focus:outline-none focus:ring-0"
+                    placeholderText="Select start date"
+                  />
+                  <CalendarDaysIcon className="w-5 h-5 text-[#798ba1] absolute left-3 top-3" />
+                </div>
+              </div>
+              
+              {/* Add Finished Date */}
+              <div className="flex flex-col text-sm text-[#798ba1] mb-4 w-full">
+                <label className="mb-2">Finish Date</label>
+                <div className="relative">
+                  <DatePicker
+                    selected={editingBook.completedDate ? new Date(editingBook.completedDate) : null}
+                    onChange={(date) =>
+                      setEditingBook({ ...editingBook, completedDate: date })
+                    }
+                    dateFormat="yyyy-MM-dd"
+                    className="w-full bg-[#0b1622] text-[#a6b3c1] font-bold rounded-lg p-3 pl-10 focus:outline-none focus:ring-0"
+                    placeholderText="Select finish date"
+                  />
+                  <CalendarDaysIcon className="w-5 h-5 text-[#798ba1] absolute left-3 top-3" />
+                </div>
+              </div>
+
+              <div className="mb-4">
+                <label className="text-[#798ba1] mb-2 block">Notes</label>
+                  <textarea 
+                    className="font-bold text-[#a6b3c1] bg-[#0b1622] w-full rounded-lg p-3 focus:outline-none focus:ring-0"
+                    value={editingBook.notes}
+                    onChange={(e) =>
+                      setEditingBook({ ...editingBook, notes: e.target.value})
+                      }
+                      />
               </div>
 
               <div className="flex justify-between items-center mt-6">
@@ -243,7 +293,7 @@ const UserProfilePage = () => {
                   </button>
                   <button
                     type="submit"
-                    className="px-4 py-2 bg-blue-600 rounded hover:bg-blue-700"
+                    className="px-4 py-2 bg-[#2ac9ff] rounded hover:bg-[#00b3f0]"
                   >
                     Save
                   </button>
